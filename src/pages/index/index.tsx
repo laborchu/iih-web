@@ -22,7 +22,8 @@ export default class Index extends Component<any, any> {
       showDialog: false,
       upload: false,
       showFeedback: false,
-      feedback: -1
+      feedback: -1,
+      result: false
     }
   }
 
@@ -77,9 +78,11 @@ export default class Index extends Component<any, any> {
             formData: {
               fileName: new Date().getTime() + "." + ext
             },
-            success: () => {
+            success: (data: any) => {
+              let result = JSON.parse(data.data);
               this.setState({
-                showFeedback: true
+                showFeedback: true,
+                result: result.success
               })
             },
             complete: () => {
@@ -142,18 +145,9 @@ export default class Index extends Component<any, any> {
           this.state.showFeedback && <AtModal isOpened>
             <AtModalHeader>检测结果</AtModalHeader>
             <AtModalContent>
-              <View className='check-result'>结果：得甲亢概率60%</View>
-              <AtRadio
-                options={[
-                  { label: '准确，我已经确认甲亢', value: '1' },
-                  { label: '不准确，我体检确认未患甲亢', value: '2' },
-                  { label: '其他', value: '0' },
-                ]}
-                value={this.state.feedback}
-                onClick={this.feedbackItemHandle.bind(this)}
-              />
+              <View className='check-result'>{this.state.result?'未提示甲亢面容':'可疑甲亢面容'}</View>
             </AtModalContent>
-            <AtModalAction><Button onClick={this.feedbackHandle.bind(this)}>反馈</Button></AtModalAction>
+            <AtModalAction><Button onClick={this.feedbackHandle.bind(this)}>确定</Button></AtModalAction>
           </AtModal>
         }
 
