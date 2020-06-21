@@ -72,7 +72,7 @@ export default class Index extends Component<any, any> {
             upload: true
           })
           Taro.uploadFile({
-            url: 'http://iih.88644.cn/images',
+            url: 'http://iih.nbdeyynfm.com/images',
             filePath: file.path,
             name: 'file',
             formData: {
